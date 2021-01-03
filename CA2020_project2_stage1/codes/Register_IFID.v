@@ -1,6 +1,7 @@
 module Register_IFID(
 	clk_i,
 	start_i,
+	stall_i,
     instr_i,
     pc_i,
     Stall_i,
@@ -9,7 +10,7 @@ module Register_IFID(
     pc_o
 );
 
-input			clk_i,start_i;
+input			clk_i,start_i,stall_i;
 input   [31:0]  instr_i;
 input	[31:0]	pc_i; 
 input 			Stall_i,Flush_i;
