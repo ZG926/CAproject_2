@@ -104,6 +104,7 @@ initial begin
     CPU.MEMWB.RdAddr_o          = 5'b0;
     CPU.MEMWB.RegWrite_o        = 1'b0;
     CPU.MEMWB.MemtoReg_o        = 1'b0;
+    
     // Load instructions into instruction memory
     // Make sure you change back to "instruction.txt" before submission
     $readmemb("instruction_1.txt", CPU.Instruction_Memory.memory);

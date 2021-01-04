@@ -118,12 +118,12 @@ assign    write_hit    = hit & cpu_MemWrite_i;                  // determine wri
 assign    cache_dirty  = write_hit;                             // determine dirty bit
 
 // TODO: add your code here!  (r_hit_data=...?)
-assign    r_hit_data    = (hit) ? sram_cache_data : 256'b0;      // if hit get cache read data else get 0
+assign    r_hit_data    = (hit) ? sram_cache_data : mem_data_i;      // if hit get cache read data else get 0
 
 // read data :  256-bit to 32-bit
 always@(cpu_offset or r_hit_data) begin
     // TODO: add your code here! (cpu_data=...?)
-    cpu_data <= r_hit_data[(cpu_offset*'d32) +: 'd32];
+    cpu_data <= r_hit_data[(cpu_offset*'d8) +: 'd32];
 end
 
 
@@ -131,7 +131,7 @@ end
 always@(cpu_offset or r_hit_data or cpu_data_i) begin
     // TODO: add your code here! (w_hit_data=...?)
     w_hit_data <= r_hit_data;
-    w_hit_data[(cpu_offset*'d32) +: 'd32] <= cpu_data_i;
+    w_hit_data[(cpu_offset*'d8) +: 'd32] <= cpu_data_i;
 end
 
 
@@ -197,10 +197,10 @@ always@(posedge clk_i or posedge rst_i) begin
                 if(mem_ack_i) begin            // wait for data memory acknowledge
                     // TODO: add your code here! 
                     state <= STATE_READMISS;
-                    mem_enable  <= 1'b1;    // enable memory access in data memory (write data)
-                    mem_write   <= 1'b1;    // write latest data to data memory
-                    cache_write <= 1'b0;    // no write needed in cache
-                    write_back  <= 1'b1;    // write back operation due to cache replacement
+                    mem_enable  <= 1'b1;    // disable memory access in data memory
+                    mem_write   <= 1'b0;    // no write needed in data memory
+                    cache_write <= 1'b0;    // load data to cache
+                    write_back  <= 1'b0;    // no write back operation
                 end
                 else begin
                     state <= STATE_WRITEBACK;
