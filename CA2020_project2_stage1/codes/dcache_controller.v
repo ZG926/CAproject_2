@@ -197,10 +197,10 @@ always@(posedge clk_i or posedge rst_i) begin
                 if(mem_ack_i) begin            // wait for data memory acknowledge
                     // TODO: add your code here! 
                     state <= STATE_READMISS;
-                    mem_enable  <= 1'b0;    // disable memory access in data memory
-                    mem_write   <= 1'b0;    // no write needed in data memory
-                    cache_write <= 1'b1;    // load data to cache
-                    write_back  <= 1'b0;    // no write back operation
+                    mem_enable  <= 1'b1;    // enable memory access in data memory (write data)
+                    mem_write   <= 1'b1;    // write latest data to data memory
+                    cache_write <= 1'b0;    // no write needed in cache
+                    write_back  <= 1'b1;    // write back operation due to cache replacement
                 end
                 else begin
                     state <= STATE_WRITEBACK;
