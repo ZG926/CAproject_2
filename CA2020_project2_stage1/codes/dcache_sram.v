@@ -67,7 +67,7 @@ always@(posedge clk_i or posedge rst_i) begin
         else if (tag[addr_i][1][22:0] == tag_i[22:0]) begin
             data[addr_i][1] <= data_i;
             tag[addr_i][1] <= tag_i;
-            tag[addr_i][0][23] <= 1'b1;
+            tag[addr_i][1][23] <= 1'b1;
             LRU[addr_i] <= 1'b0;
         end
         else begin
